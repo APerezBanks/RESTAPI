@@ -1,5 +1,3 @@
-
-
 const Movie = require("./movieModel");
 
 exports.addMovie = async (req, res) => {

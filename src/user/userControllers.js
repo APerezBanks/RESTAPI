@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("./userModel");
 
+//CRUD
+
 exports.addUser = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
@@ -30,11 +32,26 @@ exports.updatePassword = async (req, res) => {
         if (updatedUser.modifiedCount > 0) {
           res.status(200).send({ msg: "Successfully updated User" })
         }
-
       
     } catch (error) {
       console.log(error);
       res.status(500).send({ err: error.message });
-      
+    
+    }
+};
+exports.deleteUser = async (req, res) => {
+    try {
+        let result;
+        if (req.user.username === req.params.username) {
+          result = await User.deleteOne({ username: req.user.username });
+        }
+        if ( result.deletedCount > 0) {
+          res.status(200).send({ msg: "User deleted"});
+        }else{
+          throw new Error("Nothing deleted");
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ err: error.message });
     }
 };
